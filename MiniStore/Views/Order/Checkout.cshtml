@@ -1,0 +1,11 @@
+@model List<MiniStore.Models.ViewModel.CartItem>
+@{ Layout = "~/Views/Shared/_CustomerLayout.cshtml"; ViewBag.Title = "Thanh toán"; var customer = ViewBag.Customer as MiniStore.Models.Customer; }
+<h2>Thanh toán</h2>
+@using (Html.BeginForm("Checkout","Order",FormMethod.Post)) { @Html.AntiForgeryToken(); @Html.ValidationSummary(true,"",new {@class="text-danger"});
+<div class="row"><div class="col-md-7"><div class="form-group"><label>Người nhận</label><input class="form-control" readonly value="@(customer==null?"":customer.CustomerName)" /></div>
+<div class="form-group"><label>Địa chỉ giao hàng</label><input class="form-control" name="ShippingAddress" required value="@(customer==null?"":customer.CustomerAddress)" /></div>
+<div class="form-group"><label>Hình thức giao hàng</label><select class="form-control" name="DeliveryMethod"><option>Giao hàng tiêu chuẩn</option><option>Giao hàng nhanh</option></select></div>
+<div class="form-group"><label>Hình thức thanh toán</label><select class="form-control" name="PaymentMethod"><option value="COD">Thanh toán khi nhận hàng (COD)</option></select></div>
+<button class="btn btn-success">Đặt hàng</button></div>
+<div class="col-md-5"><div class="card"><div class="card-body"><h4>Đơn hàng</h4>@foreach(var item in Model){<p>@item.ProductName × @item.Quantity <span class="float-right">@item.TotalPrice.ToString("N0") đ</span></p>}<hr/><h4>Tổng: @Model.Sum(x=>x.TotalPrice).ToString("N0") đ</h4></div></div></div></div>
+}

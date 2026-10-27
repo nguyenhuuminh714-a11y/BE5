@@ -1,0 +1,9 @@
+@model MiniStore.Models.Customer
+@{ Layout = "~/Views/Shared/_CustomerLayout.cshtml"; ViewBag.Title = "Thông tin tài khoản"; }
+<div class="form-panel"><h2>Thông tin tài khoản</h2><p><b>Tên đăng nhập:</b> @Model.Username</p><p><b>Họ tên:</b> @Model.CustomerName</p>
+@using(Html.BeginForm("UpdateProfile","Account",FormMethod.Post)){@Html.AntiForgeryToken();
+<div class="form-group"><label>Số điện thoại</label><input class="form-control" name="CustomerPhone" value="@Model.CustomerPhone" required /></div>
+<div class="form-group"><label>Email</label><input class="form-control" name="CustomerEmail" value="@Model.CustomerEmail" type="email" /></div>
+<div class="form-group"><label>Địa chỉ</label><textarea class="form-control" name="CustomerAddress">@Model.CustomerAddress</textarea></div>
+<button class="btn btn-primary">Cập nhật thông tin</button>}
+</div>

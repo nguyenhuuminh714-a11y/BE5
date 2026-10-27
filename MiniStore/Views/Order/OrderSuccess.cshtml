@@ -1,0 +1,6 @@
+@model MiniStore.Models.Order
+@{ Layout = "~/Views/Shared/_CustomerLayout.cshtml"; ViewBag.Title = "Đặt hàng thành công"; }
+<div class="alert alert-success"><h2>Đặt hàng thành công!</h2><p>Cảm ơn @ViewBag.CustomerName đã mua hàng tại MiniStore.</p></div>
+<div class="card"><div class="card-body"><p><b>Mã đơn hàng:</b> #@Model.OrderID</p><p><b>Ngày đặt:</b> @Model.OrderDate.ToString("dd/MM/yyyy")</p><p><b>Địa chỉ:</b> @Model.AddressDelivery</p><p><b>Giao hàng:</b> @Model.DeliveryMethod</p><p><b>Thanh toán:</b> @Model.PaymentMethod - @Model.PaymentStatus</p>
+<table class="table"><thead><tr><th>Mã SP</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th></tr></thead><tbody>@foreach(var d in Model.OrderDetails){<tr><td>@d.ProductID</td><td>@d.Quantity</td><td>@d.UnitPrice.ToString("N0") đ</td><td>@d.TotalPrice.ToString("N0") đ</td></tr>}</tbody></table><h4 class="text-right">Tổng cộng: @Model.TotalAmount.ToString("N0") đ</h4></div></div>
+<a class="btn btn-primary mt-3" href="@Url.Action("Index","Home")">Về trang chủ</a>

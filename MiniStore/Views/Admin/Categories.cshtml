@@ -1,0 +1,6 @@
+@model List<MiniStore.Models.Category>
+@{ Layout = "~/Views/Shared/_CustomerLayout.cshtml"; ViewBag.Title = "Quản lý danh mục"; }
+<h2>Quản lý danh mục</h2>
+@using (Html.BeginForm("CreateCategory","Admin",FormMethod.Post,new {@class="form-inline mb-4"})) { @Html.AntiForgeryToken(); <input name="CategoryName" class="form-control mr-2" required placeholder="Tên danh mục" /><button class="btn btn-primary">Thêm danh mục</button> }
+<table class="table table-bordered bg-white"><thead><tr><th>Mã</th><th>Tên danh mục</th><th>Thao tác</th></tr></thead><tbody>@foreach(var c in Model){<tr><td>@c.CategoryID</td><td>@c.CategoryName</td><td>@using(Html.BeginForm("DeleteCategory","Admin",new{id=c.CategoryID},FormMethod.Post,new {@class="d-inline"})){@Html.AntiForgeryToken();<button class="btn btn-sm btn-danger" onclick="return confirm('Xóa danh mục này?')">Xóa</button>}</td></tr>}</tbody></table>
+<p class="text-muted">Danh mục đang có sản phẩm sẽ không thể xóa.</p>

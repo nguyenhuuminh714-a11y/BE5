@@ -1,0 +1,23 @@
+@model MiniStore.Models.ViewModel.ProductSearchVM
+@{ Layout = "~/Views/Shared/_CustomerLayout.cshtml"; ViewBag.Title = "Danh sách sản phẩm"; }
+<h2>Danh sách sản phẩm</h2>
+@using (Html.BeginForm("ProductList","Home",FormMethod.Get,new {@class="form-row mb-4"})) {
+    <div class="col-md-4 mb-2"><input class="form-control" name="searchTerm" value="@Model.SearchTerm" placeholder="Tìm tên, mô tả, danh mục" /></div>
+    <div class="col-md-3 mb-2"><select class="form-control" name="sortOrder"><option value="">Tên A-Z</option><option value="name_desc" @(Model.SortOrder=="name_desc"?"selected":"")>Tên Z-A</option><option value="price" @(Model.SortOrder=="price"?"selected":"")>Giá tăng dần</option><option value="price_desc" @(Model.SortOrder=="price_desc"?"selected":"")>Giá giảm dần</option></select></div>
+    <div class="col-md-3 mb-2"><button class="btn btn-primary">Tìm / Sắp xếp</button></div>
+}
+<div class="row">
+@foreach (var p in Model.Products) {
+    <div class="col-md-4 mb-4"><div class="card h-100 product-card">
+        <img class="card-img-top product-image" src="@Url.Content(string.IsNullOrWhiteSpace(p.ProductImage) ? "~/Content/no-image.svg" : p.ProductImage)" alt="@p.ProductName" />
+        <div class="card-body"><small>@(p.Category==null?"":p.Category.CategoryName)</small><h5>@p.ProductName</h5><p>@p.ProductDescription</p><p class="price">@p.ProductPrice.ToString("N0") đ</p><a class="btn btn-primary" href="@Url.Action("ProductDetail",new{id=p.ProductID})">Xem chi tiết</a></div>
+    </div></div>
+}
+</div>
+@if (Model.TotalPages > 1) {
+<nav><ul class="pagination">
+@for (int i=1;i<=Model.TotalPages;i++) {
+<li class="page-item @(i==Model.PageNumber?"active":"")">@Html.ActionLink(i.ToString(),"ProductList",new {page=i,searchTerm=Model.SearchTerm,sortOrder=Model.SortOrder},new {@class="page-link"})</li>
+}
+</ul></nav>
+}

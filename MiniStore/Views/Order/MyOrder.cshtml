@@ -1,0 +1,4 @@
+@model List<MiniStore.Models.Order>
+@{ Layout = "~/Views/Shared/_CustomerLayout.cshtml"; ViewBag.Title = "Lịch sử mua hàng"; }
+<h2>Lịch sử mua hàng</h2>
+@if(!Model.Any()){<p>Bạn chưa có đơn hàng nào.</p>} else { <table class="table table-striped"><thead><tr><th>Mã đơn</th><th>Ngày đặt</th><th>Tổng tiền</th><th>Thanh toán</th><th>Địa chỉ giao hàng</th></tr></thead><tbody>@foreach(var o in Model){<tr><td>#@o.OrderID</td><td>@o.OrderDate.ToString("dd/MM/yyyy")</td><td>@o.TotalAmount.ToString("N0") đ</td><td>@o.PaymentStatus</td><td>@o.AddressDelivery</td></tr>}</tbody></table> }

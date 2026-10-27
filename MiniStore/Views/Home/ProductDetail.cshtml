@@ -1,0 +1,13 @@
+@model MiniStore.Models.Product
+@{ Layout = "~/Views/Shared/_CustomerLayout.cshtml"; ViewBag.Title = Model.ProductName; }
+<div class="row">
+    <div class="col-md-6"><img class="img-fluid detail-image" src="@Url.Content(string.IsNullOrWhiteSpace(Model.ProductImage) ? "~/Content/no-image.svg" : Model.ProductImage)" alt="@Model.ProductName" /></div>
+    <div class="col-md-6"><small class="text-muted">@(Model.Category==null?"":Model.Category.CategoryName)</small><h1>@Model.ProductName</h1><p>@Model.ProductDescription</p><h3 class="price">@Model.ProductPrice.ToString("N0") đ</h3>
+    @using (Html.BeginForm("AddItem","Cart",FormMethod.Post)) { @Html.AntiForgeryToken(); @Html.Hidden("id",Model.ProductID); <label>Số lượng</label><input type="number" class="form-control mb-3" name="quantity" value="1" min="1" max="99" /><button class="btn btn-success">Thêm vào giỏ hàng</button> }
+    </div>
+</div>
+<h3 class="mt-5">Sản phẩm tương tự</h3><div class="row">
+@foreach (MiniStore.Models.Product p in (ViewBag.RelatedProducts as IEnumerable<MiniStore.Models.Product> ?? new List<MiniStore.Models.Product>())) {
+<div class="col-md-3 mb-3"><div class="card h-100"><img class="product-image" src="@Url.Content(string.IsNullOrWhiteSpace(p.ProductImage) ? "~/Content/no-image.svg" : p.ProductImage)" /><div class="card-body"><b>@p.ProductName</b><p class="price">@p.ProductPrice.ToString("N0") đ</p><a href="@Url.Action("ProductDetail",new{id=p.ProductID})">Xem</a></div></div></div>
+}
+</div>

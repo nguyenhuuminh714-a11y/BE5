@@ -1,0 +1,10 @@
+@model List<MiniStore.Models.Product>
+@{ Layout = "~/Views/Shared/_CustomerLayout.cshtml"; ViewBag.Title = "Quản lý sản phẩm"; }
+<h2>Quản lý sản phẩm</h2>
+@using (Html.BeginForm("Products","Admin",FormMethod.Get,new {@class="form-inline mb-3"})) { <input class="form-control mr-2" name="searchTerm" value="@ViewBag.SearchTerm" placeholder="Tìm tên sản phẩm" /><button class="btn btn-outline-primary">Tìm</button> }
+<div class="card card-body mb-4"><h4>Thêm sản phẩm</h4>
+@using (Html.BeginForm("CreateProduct","Admin",FormMethod.Post)) { @Html.AntiForgeryToken();
+<div class="form-row"><div class="col-md-3 mb-2"><input class="form-control" name="ProductName" placeholder="Tên sản phẩm" required /></div><div class="col-md-3 mb-2"><input class="form-control" name="ProductDescription" placeholder="Mô tả" /></div><div class="col-md-2 mb-2"><input class="form-control" name="ProductPrice" type="number" min="0" step="1000" placeholder="Giá" required /></div><div class="col-md-2 mb-2">@Html.DropDownList("CategoryID",(SelectList)ViewBag.Categories,"Danh mục",new {@class="form-control",required="required"})</div><div class="col-md-2 mb-2"><input class="form-control" name="ProductImage" placeholder="URL ảnh" /></div></div><button class="btn btn-success">Thêm sản phẩm</button>
+}</div>
+<table class="table table-bordered bg-white"><thead><tr><th>Mã</th><th>Tên</th><th>Danh mục</th><th>Giá</th><th>Thao tác</th></tr></thead><tbody>@foreach(var p in Model){<tr><td>@p.ProductID</td><td>@p.ProductName</td><td>@(p.Category==null?"":p.Category.CategoryName)</td><td>@p.ProductPrice.ToString("N0") đ</td><td>@using(Html.BeginForm("DeleteProduct","Admin",new{id=p.ProductID},FormMethod.Post,new {@class="d-inline"})){@Html.AntiForgeryToken();<button class="btn btn-sm btn-danger" onclick="return confirm('Xóa sản phẩm này?')">Xóa</button>}</td></tr>}</tbody></table>
+<p class="text-muted">Sản phẩm đã xuất hiện trong đơn hàng sẽ không thể xóa.</p>
